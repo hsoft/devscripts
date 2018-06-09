@@ -6,4 +6,4 @@
 # Example
 # gen-git-changed-pkgs.sh HEAD~100
 
-git log --format="%s" $1..HEAD | grep -E -o "^[^\s/]+/[^\s:]+" | sort | uniq
+git log --format="%s" $1..HEAD | grep -P -o "^[^\s/]+/[^\s:]+" | sort | uniq

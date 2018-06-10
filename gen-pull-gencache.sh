@@ -11,8 +11,7 @@ git pull
 
 verif-sign-until.sh $BEGIN_COMMIT
 
-PKGS=$(gen-git-changed-pkgs.sh $BEGIN_COMMIT | xargs)
-
-echo "Regenerating cache for $PKGS"
-
-egencache --jobs=4 --repo gentoo --update $PKGS
+for pkg in $(gen-git-changed-pkgs.sh $BEGIN_COMMIT); do
+    echo "Regenerating cache for $pkg"
+    egencache --repo gentoo --update $pkg
+done

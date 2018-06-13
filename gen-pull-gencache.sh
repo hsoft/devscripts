@@ -10,5 +10,9 @@ git pull
 
 verif-sign-until.sh $BEGIN_COMMIT
 
+for x in dtd glsa news xml-schema; do
+    git -C metadata/${x} pull
+done
+
 echo "Regenerating cache..."
 egencache --jobs=4 --repo gentoo --update

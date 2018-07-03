@@ -6,6 +6,8 @@
 # Example:
 # verif-sign-until.sh HEAD~100
 
+# TODO: use trust levels to error out on untrusted keys
+
 for commit in $(git rev-list $1..HEAD); do
     msg=$(git --no-pager log -1 --oneline $commit)
     echo "Verifying $msg"

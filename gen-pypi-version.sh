@@ -19,6 +19,7 @@ FULL_ATOM=$(ACCEPT_KEYWORDS="~amd64" portageq best_visible / ebuild $1) || exit 
 EBUILD_VERSION=$(qatom -F "%{PV}" $FULL_ATOM)
 JSON=$(curl "https://pypi.org/pypi/${PYPI_NAME}/json" 2> /dev/null) || exit 3
 PYPI_VERSION=$(jq -r ".info.version" <<< $JSON) || exit 4
+PYPI_DATE=$(jq -r ".releases[\"${PYPI_VERSION}\"][0].upload_time" <<< $JSON | cut -b -10)
 
 if [[ $EBUILD_VERSION == $PYPI_VERSION ]]; then
     echo -n "= "
@@ -26,5 +27,5 @@ else
     echo -n "! "
 fi
 
-echo $FULL_ATOM $PYPI_NAME $PYPI_VERSION
+echo $FULL_ATOM $PYPI_NAME $PYPI_VERSION $PYPI_DATE
 

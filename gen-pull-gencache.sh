@@ -15,4 +15,4 @@ for x in dtd glsa news xml-schema; do
 done
 
 echo "Regenerating cache..."
-egencache --jobs=4 --repo gentoo --update
+egencache --jobs=4 --repo gentoo --update --update-pkg-desc-index --update-use-local-desc

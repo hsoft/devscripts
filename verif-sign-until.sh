@@ -8,14 +8,20 @@
 
 # TODO: use trust levels to error out on untrusted keys
 
-for commit in $(git rev-list $1..HEAD); do
-    msg=$(git --no-pager log -1 --oneline $commit)
+for commit in $(git rev-list "$1..HEAD"); do
+    msg=$(git --no-pager log -1 --oneline "$commit")
     echo "Verifying $msg"
-    if ! git verify-commit $commit > /dev/null 2>&1 ; then
+    output=$(git verify-commit --raw "$commit" 2>&1)
+    res=$?
+    if [[ $res != 0 ]]; then
         echo "Verification failed!"
-        git --no-pager log -1 --pretty=fuller $commit
-        git verify-commit $commit
-        exit 1
+        git --no-pager log -1 --pretty=fuller "$commit"
+        echo "${output}"
+        if grep "\\[GNUPG:\\] EXPKEYSIG" <<< "$output"; then
+            echo "... but expired keys are alright..."
+        else
+            exit 1
+        fi
     fi
 done
 exit 0

@@ -16,3 +16,5 @@ done
 
 echo "Regenerating cache..."
 egencache --jobs=4 --repo gentoo --update --update-pkg-desc-index --update-use-local-desc
+
+date -R > metadata/timestamp.chk

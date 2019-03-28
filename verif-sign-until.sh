@@ -9,7 +9,7 @@
 # TODO: use trust levels to error out on untrusted keys
 
 for commit in $(git rev-list "$1..HEAD"); do
-    msg=$(git --no-pager log -1 --oneline "$commit")
+    msg=$(git --no-pager log -1 --format="%h %s << %ce" "$commit")
     echo "Verifying $msg"
     output=$(git verify-commit --raw "$commit" 2>&1)
     res=$?
